@@ -7,6 +7,7 @@ const AppProvider = ({children}) => {
   const [loading, setLoading] = useState(false)
   const [movie,setMovie] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
+  const [submitTrue, setSubmitTrue] = useState(true);
   const handleChange = (e) => {
     setText(e.target.value)
 }
@@ -23,9 +24,21 @@ const handleSubmit = (e) => {
   
   if (text) {
     fetchData(text)
+    setSubmitTrue(false)
   }
 }
- 
+const setDisplay = () => {
+  if (submitTrue) {
+    return 'none'
+  }
+  return 'flex'
+}
+const setRate = () => {
+  if (!submitTrue) {
+    return 'none'
+  }
+  return 'flex'
+}
   
   const fetchData = async (search) => {
     setLoading(true);
@@ -56,8 +69,11 @@ const handleSubmit = (e) => {
       <input className="searchBox" type="text" placeholder='Search Movie with ...' value={text} onChange={handleChange}/>
       <button onClick={handleSubmit}>Search</button>
     </div>
+    <div className="rate" style={{display: setRate()}}>
+      <h1>Please Provide Rating</h1>
+    </div>
     {children}
-    <div className="page">
+    <div className="page" style={{display: setDisplay()}}>
       <input type="button" value="1" onClick={handlePage} />
       <input type="button" value="2" onClick={handlePage}/>
       <input type="button" value="3" onClick={handlePage}/>
